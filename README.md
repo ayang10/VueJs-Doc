@@ -11,6 +11,9 @@
 - ``` v-if, v-else, v-else-if ``` --> if else statements condition 
 - ``` v-show ``` --> another option for conditionally displaying an element
 - ``` v-bind:is ``` --> Component changes when property changes
+- ``` v-once ``` --> try not overusing this pattern, only for conponent that contains a lot of static content
+- ``` v-focus ``` --> when the page loads, that element gains focus (note: ``` autofocus``` doesn't work on mobile safari)
+
 
 
 
@@ -176,7 +179,35 @@ Vue.set(vm.userProfile, 'age', 27)
 vm.$set(vm.userProfile, 'age', 27) // this is an alias for the global Vue.set
 ```
 
+## Transitioning Single Elements/Components
+```
+<div id="demo">
+  <button v-on:click="show = !show">
+    Toggle
+  </button>
+  <transition name="fade">
+    <p v-if="show">hello</p>
+  </transition>
+</div>
 
+new Vue({
+  el: '#demo',
+  data: {
+    show: true
+  }
+})
+
+// make sure to add this css styling
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+```
+## Mixins
+- Mixins are a flexible way to distribute reusable functionalities for Vue components. A mixin object can contain any component options. When a component uses a mixin, all options in the mixin will be “mixed” into the component’s own options.
 
 ## Computed Caching vs Methods
 - the following computed property will never update, because Date.now() is not a reactive dependency
